@@ -1,0 +1,26 @@
+#port
+server:
+ port: 80
+#MVC
+spring:
+# mvc:
+#  view:
+#   prefix: /WEB-INF/jsp/
+#   suffix: .jsp
+ thymeleaf: 
+  cache: false
+  encoding: UTF-8
+  prefix: classpath:templates/
+  mode: HTML
+  suffix: .html
+ datasource:
+  url: jdbc:oracle:thin:@192.168.56.1:1521:XE
+  username: hr
+  password: happy
+  driver-class-name: oracle.jdbc.driver.OracleDriver
+#MyBatis
+mybatis:
+ type-aliases-package: com.sist.web.vo
+ mapper-locations: mybatis/mapper/*.xml
+#ThymeLeaf
+#JPA

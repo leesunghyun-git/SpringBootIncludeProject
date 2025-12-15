@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.sist.web.mapper.FoodMapper">
+ 	<select id="foodFindData" resultType="com.sist.web.vo.FoodVO" parameterType="hashmap">
+ 		SELECT fno,name,poster,address
+ 		FROM menupan_food
+ 		<if test="column!='all'">
+ 		WHERE ${column} LIKE '%'||#{ss}||'%'
+ 		</if>
+ 		<if test="column=='all'">
+ 		WHERE address LIKE '%'||#{ss}||'%' OR name LIKE '%'||#{ss}||'%' OR type LIKE '%'||#{ss}||'%'
+ 		</if>
+ 		ORDER BY fno asc
+ 		OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY
+ 	</select>
+ 	<!-- 
+ 			동적쿼리는 일반변수는 인식이 안된다
+ 			Map / VO에 값을 첨부해서 사용
+ 			<if>
+ 			<foreach> : for = 다중 검색 , IN
+ 			<trim> : 추가(AND,OR) , 삭제 (AND, OR)
+ 			<trim prefix="AND" prefixOverries="AND">
+ 			WHERE
+ 			<if>
+ 				AND name LIKE
+ 			<if>
+ 			<if>
+ 				AND SUBJECT LIKE
+ 			</if>
+ 			<if>
+ 				AND CONTENT LIKE
+ 			</if>
+ 			
+ 			<bind> : 변수 설정
+ 			<choose>
+ 				<when test=""></when>
+ 				<otherwise></otherwise>
+ 			</choose>
+ 	 -->
+ 	<select id="foodFindTotalPage" resultType="int" parameterType="hashmap">
+ 		SELECT CEIL(COUNT(*)/12.0) FROM menupan_food
+ 		<if test="column!='all'">
+ 		WHERE ${column} LIKE '%'||#{ss}||'%'
+ 		</if>
+ 		<if test="column=='all'">
+ 		WHERE address LIKE '%'||#{ss}||'%' OR name LIKE '%'||#{ss}||'%' OR type LIKE '%'||#{ss}||'%'
+ 		</if>
+ 	</select>
+ </mapper>
